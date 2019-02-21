@@ -3,6 +3,7 @@ title: "Reproducible Research: Peer Assessment 1"
 output: 
   html_document:
     keep_md: true
+    self-contained: no
 ---
 
 
@@ -56,7 +57,6 @@ total_steps <- summarise(data_by_day,day_total=sum(steps))
 Plot histogram of total steps per day.
 
 ```r
-png("plot1.png")
 ggplot(data=total_steps, aes(total_steps$day_total))+
   geom_histogram(fill="blue",binwidth=2500)+
   xlab("Total Steps per Day")+
@@ -68,14 +68,7 @@ ggplot(data=total_steps, aes(total_steps$day_total))+
 ## Warning: Removed 8 rows containing non-finite values (stat_bin).
 ```
 
-```r
-dev.off()
-```
-
-```
-## png 
-##   2
-```
+![](PA1_template_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
 Calculate mean and median of total steps per day.
 
@@ -116,9 +109,13 @@ int_avg <- summarise(data_by_interval, interval_avg = mean(steps,na.rm = TRUE))
 Plot time series of average number of steps by 5 minute interval.
 
 ```r
-png("plot2.png")
 ggplot(int_avg,aes(interval,interval_avg))+
   geom_line()
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+
+```r
   scale_x_continuous(breaks=seq(0,2400,300))
 ```
 
@@ -126,15 +123,6 @@ ggplot(int_avg,aes(interval,interval_avg))+
 ## <ScaleContinuousPosition>
 ##  Range:  
 ##  Limits:    0 --    1
-```
-
-```r
-dev.off()
-```
-
-```
-## png 
-##   2
 ```
 
 
@@ -168,19 +156,15 @@ dat2<-mutate(dat2,steps=ifelse(is.na(steps),interval_avg,steps))
 
 data_by_day <- group_by(dat2,date)
 total_steps <- summarise(data_by_day,day_total=sum(steps))
-png("plot3.png")
+
 ggplot(data=total_steps, aes(total_steps$day_total))+
   geom_histogram(fill="blue",binwidth=2500)+
   xlab("Total Steps per Day")+
   ylab("Count")+
   scale_y_continuous(breaks=c(0,2,4,6,8,10))
-dev.off()
 ```
 
-```
-## png 
-##   2
-```
+![](PA1_template_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
 
 ```r
 mn2<- mean(total_steps$day_total,na.rm=TRUE)
@@ -267,15 +251,10 @@ int_avg <- summarise(data_by_interval_dayfactor, interval_avg = mean(steps,na.rm
 Plot time series of average number of steps by 5 minute interval.
 
 ```r
-png("plot4.png")
 ggplot(int_avg,aes(interval,interval_avg))+
   geom_line()+
   scale_x_continuous(breaks=seq(0,2400,300))+
   facet_grid(dayfactor~.)
-dev.off()
 ```
 
-```
-## png 
-##   2
-```
+![](PA1_template_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
